@@ -1,5 +1,6 @@
 # Tic-Tac-Toi_JS
 // It's unfinished.
+//http://jsfiddle.net/VaAlina/c3euan5z/3/
 
 var game = {
     cellsAmount: 5,// Make it incrementable in the future versions of game.
