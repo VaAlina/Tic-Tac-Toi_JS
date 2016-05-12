@@ -27,21 +27,26 @@ var game = {
     changeCellsAmount: function(){
     
     },
-    init: function(){// Add the event listeners to all cells. Run only ones.
+    run2Players: function(){// Add the event listeners to all cells.
         for(var i = 0; i < game.cellsAmount * game.cellsAmount; i++){
             document.getElementById(i).addEventListener("click", function(){
-                if(game.allMoves.length == 0){ // If array with moves is empty, "x" starts.
-                    var text = document.createTextNode("x");
-                    this.appendChild(text);
-                    game.allMoves.push("1");
-                }else if(game.allMoves.length % 2 != 0){// "o" turn
-                    var text = document.createTextNode("o");
-                    this.appendChild(text);
-                    game.allMoves.push("1");
-                }else{// "x" turn
-                    var text = document.createTextNode("x");
-                    this.appendChild(text);
-                    game.allMoves.push("1");
+                //Prevent putting more then one value in cell.
+                if(game.allMoves.indexOf(this.id) == -1){
+                    if(game.allMoves.length == 0){ // If array with moves is empty, "x" starts.
+                        var text = document.createTextNode("x");
+                        this.appendChild(text);
+                        game.allMoves.push(this.id);
+                    }else if(game.allMoves.length % 2 != 0){// "o" turn
+                        var text = document.createTextNode("o");
+                        this.appendChild(text);
+                        game.allMoves.push(this.id);
+                    }else{// "x" turn
+                        var text = document.createTextNode("x");
+                        this.appendChild(text);
+                        game.allMoves.push(this.id);
+                    }
+                }else{
+                    alert("Choose another cell!");
                 }
                 
             });
@@ -53,9 +58,11 @@ var game = {
                 alert("1 player");
                 break;
             case 2: 
+                game.run2Players();
                 alert("2 players");
                 break;
-          default:
+           default:
+                game.run2Players();
                 alert("2 players");
             
         }
@@ -77,5 +84,4 @@ var game = {
     }
 };
 game.drawTable();
-game.init();
 game.run();
