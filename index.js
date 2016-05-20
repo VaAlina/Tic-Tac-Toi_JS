@@ -1,6 +1,6 @@
 # Tic-Tac-Toi_JS
 // It's unfinished.
-//http://jsfiddle.net/VaAlina/c3euan5z/11/
+//http://jsfiddle.net/VaAlina/c3euan5z/17/
 var game = {
     cellsAmount: 5,// Make it incrementable in the future versions of game.
     playersAmount: 2,
@@ -36,14 +36,20 @@ var game = {
                         var text = document.createTextNode("x");
                         this.appendChild(text);
                         game.allMoves.push(this.id);
+                        game.x_cells.push(this.id);
+                        game.checkIfFinished(game.x_cells);
                     }else if(game.allMoves.length % 2 != 0){// "o" turn
                         var text = document.createTextNode("o");
                         this.appendChild(text);
                         game.allMoves.push(this.id);
+                        game.o_cells.push(this.id);
+                        game.checkIfFinished(game.o_cells);
                     }else{// "x" turn
                         var text = document.createTextNode("x");
                         this.appendChild(text);
                         game.allMoves.push(this.id);
+                        game.x_cells.push(this.id);
+                        game.checkIfFinished(game.x_cells);
                     }
                 }else{
                     alert("Choose another cell!");
@@ -53,6 +59,7 @@ var game = {
         }
     },
     run: function(){
+        game.drawTable();
         switch(game.playersAmount){
             case 1: 
                 alert("1 player");
@@ -74,14 +81,28 @@ var game = {
     
     },
     calculateO: function(){// Define the best answer for "o".
-    
+
     },
-    checkIfFinished: function(){// If noone wins, continue game.
+    checkIfFinished: function(arr){// If noone wins, continue game.
+        // 3 in line.
+       arr = arr.slice().sort(function(a, b) {
+           return a - b
+       });
+       return arr.some(function(c, b) {
+           var d = arr[b + 1],
+           e = arr[b + 2];
+           return c == d - 1 && c == e - 2 && (arr = [c, d, e])
+       }) && arr;
+       alert(JSON.stringify(game.checkIfFinished(arr)));
+
+           
+        
+        // 3 diagonal increase.
+        
+        // 3 diagonal decrease.
+        
+   }  
     
-    },
-    test: function(){
-        alert("works");
-    }
 };
 game.drawTable();
 game.run();
