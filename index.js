@@ -1,6 +1,3 @@
-# Tic-Tac-Toi_JS
-// It's unfinished.
-//http://jsfiddle.net/VaAlina/c3euan5z/17/
 var game = {
     cellsAmount: 5,// Make it incrementable in the future versions of game.
     playersAmount: 2,
@@ -37,19 +34,19 @@ var game = {
                         this.appendChild(text);
                         game.allMoves.push(this.id);
                         game.x_cells.push(this.id);
-                        game.checkIfFinished(game.x_cells);
+                        game.getXResult();
                     }else if(game.allMoves.length % 2 != 0){// "o" turn
                         var text = document.createTextNode("o");
                         this.appendChild(text);
                         game.allMoves.push(this.id);
                         game.o_cells.push(this.id);
-                        game.checkIfFinished(game.o_cells);
+                        game.getOResult();
                     }else{// "x" turn
                         var text = document.createTextNode("x");
                         this.appendChild(text);
                         game.allMoves.push(this.id);
                         game.x_cells.push(this.id);
-                        game.checkIfFinished(game.x_cells);
+                        game.getXResult();
                     }
                 }else{
                     alert("Choose another cell!");
@@ -74,35 +71,42 @@ var game = {
             
         }
     },
-    getX: function(){
-        // Get user input. User plays for "x".
+    getXResult: function(){// Get user input. User plays for "x".
+        if(game.x_cells.length == 3){
+            alert("X wins!"+game.x_cells);
+        }
+        
     },
-    getO: function(){// Get the second user input if exist.
-    
+    getOResult: function(){// Get the second user input if exist.
+        if(game.o_cells.length == 3){
+            alert("O wins!"+game.o_cells);
+        }   
     },
     calculateO: function(){// Define the best answer for "o".
-
+    
     },
     checkIfFinished: function(arr){// If noone wins, continue game.
         // 3 in line.
-       arr = arr.slice().sort(function(a, b) {
-           return a - b
-       });
-       return arr.some(function(c, b) {
-           var d = arr[b + 1],
-           e = arr[b + 2];
-           return c == d - 1 && c == e - 2 && (arr = [c, d, e])
-       }) && arr;
-       alert(JSON.stringify(game.checkIfFinished(arr)));
-
-           
-        
+        function test(arr) {
+            arr = arr.slice().sort(function(a, b) {
+            return a - b
+        });
+        return arr.some(function(d, b) {
+            var c = arr.slice(b);
+            c.some(function(a, b) {
+                return a != c[b + 1] - 1 && (c = c.slice(0, b + 1))
+            });
+            return 2 < c.length && (a = c)
+        }) && a
+    };
+    return JSON.stringify(test(arr));
         // 3 diagonal increase.
         
         // 3 diagonal decrease.
         
-   }  
-    
+        
+    }
 };
 game.drawTable();
 game.run();
+//game.checkIfFinished(game.x_cells);
